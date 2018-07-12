@@ -27,7 +27,7 @@ url = 'http://%s:%s/v2/_catalog' % (ip, port)
 
 account = 'Basic ' + base64.b64encode('%s:%s' % (user,password))
 headers = {
-    'Accept': 'application/vnd.docker.distribution.mainfest.v2+json'
+    'Accept': 'application/vnd.docker.distribution.mainfest.v2+json',
     'Authorization': account
 }
 
@@ -38,5 +38,6 @@ print resp.text
 
 
 def get_sha256():
+    pass
     
 
