@@ -6,8 +6,6 @@ import traceback
 
 ip = '10.13.0.63'
 port = 5000
-user = 'admin'
-passwd = '111111'
 
 def getImageName(ip, port):
 
@@ -31,15 +29,17 @@ def getImageName(ip, port):
 
             image_json = json.loads(resp_image)
 
-            name = image_json['name']
+            if image_json['tags'] != None:
 
-            tags = image_json['tags']
+                name = image_json['name']
 
-            for tag in tags:  
+                tags = image_json['tags']
 
-                docker_name = "%s:%d/%s:%s" % (ip, port, name, tag)  
+                for tag in tags:  
 
-                docker_images.append(docker_name)  
+                    docker_name = "%s:%d/%s:%s" % (ip, port, name, tag)  
+
+                    docker_images.append(docker_name)  
 
     except:
 
@@ -47,8 +47,8 @@ def getImageName(ip, port):
 
     return docker_images
 
-images = getImageName(ip, port)
+imgs = getImageName(ip, port)
 
-for i in images:
+for i in imgs:
     print i
 

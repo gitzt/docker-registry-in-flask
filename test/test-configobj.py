@@ -7,14 +7,14 @@ from configobj import ConfigObj
 
 
 def set_config(section, key, value):
-    path = os.path.split(os.path.realpath(__file__))[0] + '/config.ini'
+    path = os.path.abspath(os.path.dirname(__file__)) + '/config.ini'
     config = ConfigObj(path, encoding='UTF8')
     config[section][key] = value
     config.write()
 
 
 def get_config(section, key):
-    path = os.path.split(os.path.realpath(__file__))[0] + '/config.ini'
+    path = os.path.abspath(os.path.dirname(__file__)) + '/config.ini'
     config = ConfigObj(path, encoding='UTF8') 
     return config[section][key]
 
@@ -23,21 +23,40 @@ port = get_config('HOST_INFO', 'PORT')
 user = get_config('USER_INFO', 'USER')
 password = get_config('USER_INFO', 'PASSWORD')
 
-url = 'http://%s:%s/v2/_catalog' % (ip, port)
 
-account = 'Basic ' + base64.b64encode('%s:%s' % (user,password))
+account = 'Basic ' + base64.b64encode('%s:%s' % (user, password))
 headers = {
-    'Accept': 'application/vnd.docker.distribution.mainfest.v2+json',
+    'Accept': 'application/vnd.docker.distribution.manifest.v2+json',
     'Authorization': account
 }
 
-resp = requests.get(url, headers=headers)
 
-print resp.text
+def get_images(headers, ip, port):
+    url = 'http://%s:%s/v2/_catalog' % (ip, port)
+    print url
+    resp = requests.get(url, headers=headers)
+    print resp.text
+
+get_images(headers, ip, port)
 
 
+def get_sha256(headers, ip, port, image, tag):
+    url = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, tag)
+    print url
+    resp = requests.get(url, headers=headers)
+    sha256 = resp.headers['Docker-Content-Digest']
+    return sha256
 
-def get_sha256():
-    pass
+sha256 = get_sha256(headers, ip, port, 'registry', 'latest')
+print sha256
     
+    
+def del_image(headers, ip, port, image, sha256):
+    url = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, sha256)
+    print url
+    resp = requests.delete(url, headers=headers)
+    print resp.headers
+    print resp.text
+
+del_image(headers, ip, port, 'registry', sha256)
 
