@@ -40,23 +40,17 @@ def get_images(headers, ip, port):
 get_images(headers, ip, port)
 
 
-def get_sha256(headers, ip, port, image, tag):
-    url = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, tag)
-    print url
-    resp = requests.get(url, headers=headers)
-    sha256 = resp.headers['Docker-Content-Digest']
-    return sha256
-
-sha256 = get_sha256(headers, ip, port, 'registry', 'latest')
-print sha256
     
-    
-def del_image(headers, ip, port, image, sha256):
+def del_image(headers, ip, port, image, tag):
+    url_sha256 = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, tag)
+    print url_sha256
+    resp_sha256 = requests.get(url_sha256, headers=headers)
+    sha256 = resp_sha256.headers['Docker-Content-Digest']
     url = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, sha256)
     print url
     resp = requests.delete(url, headers=headers)
     print resp.headers
-    print resp.text
+    print resp
 
-del_image(headers, ip, port, 'registry', sha256)
+del_image(headers, ip, port, 'registry', 'latest')
 
