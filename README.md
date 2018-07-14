@@ -1,1 +1,1 @@
-# docker-registry-in-flask
+# flask-registry
