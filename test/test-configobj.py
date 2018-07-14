@@ -51,7 +51,7 @@ def del_image(headers, ip, port, image, tag):
     print url
     resp = requests.delete(url, headers=headers)
     print resp.headers
-    if resp.status_code == 200:
+    if resp.status_code == 202:
         print "Delete success !" 
     else:
         print "Delete image failure, error code: %s" % resp.status_code
