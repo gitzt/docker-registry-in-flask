@@ -32,6 +32,7 @@ headers = {
 
 
 def get_images(headers, ip, port):
+    print headers
     url = 'http://%s:%s/v2/_catalog' % (ip, port)
     print url
     resp = requests.get(url, headers=headers)
@@ -50,7 +51,10 @@ def del_image(headers, ip, port, image, tag):
     print url
     resp = requests.delete(url, headers=headers)
     print resp.headers
-    print resp
+    if resp.status_code == 200:
+        print "Delete success !" 
+    else:
+        print "Delete image failure, error code: %s" % resp.status_code
 
 del_image(headers, ip, port, 'registry', 'latest')
 
