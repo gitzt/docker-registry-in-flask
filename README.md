@@ -1,4 +1,4 @@
-`# flask-registry目录结构
+# flask-registry目录结构
 flask-registry
 ├── app
 ├── config.py
@@ -21,4 +21,4 @@ flask-registry
 在新的环境创建虚拟环境
 (venv) $ pip install -r requirements.txt
 
-`
+
