@@ -24,3 +24,9 @@ docker run -it --name gc --rm --volumes-from registry registry garbage-collect /
 安装依赖  
 (venv) $ pip install -r requirements.txt  
 
+
+# venv
+安装虚拟环境：pip install virtualenv  
+初始化环境：virtualenv --no-site-packages venv  
+进入环境：source venv/bin/activate  
+退出环境：deactivate  
