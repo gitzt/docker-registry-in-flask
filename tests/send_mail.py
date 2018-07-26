@@ -7,12 +7,14 @@ from email.header import Header
 
 def send_mail(mail_host, mail_user, mail_auth, sender, receivers):
     """ 这是一个纯文本邮件 """
+    # 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码
     message = MIMEText('Python 邮件发送测试...', 'plain', 'utf-8')
+    
     message['From'] = "%s<ztwork18@163.com>" % Header('测试','utf-8')
     message['To'] =  "%s<ztwork18@163.com>" % Header('测试','utf-8')
 
     subject = 'Python SMTP 邮件测试'
-    message['Subject'] = Header(subject, 'utf-8')
+    message['Subject'] = Header(subject, 'utf-8')   # 邮箱标题
 
     try:
         smtp = smtplib.SMTP()
@@ -55,10 +57,10 @@ def send_mail_files(mail_host, mail_user, mail_auth, sender, receivers):
 
 
 if __name__ == '__main__':
-    mail_host = "smtp.163.com"
-    mail_user = "ztwork18"
+    mail_host = "smtp.163.com"  # 设置服务器
+    mail_user = "ztwork18"      # 用户名
     mail_auth = "1qaz2wsx"      # 这个是授权码，不是密码
-    mail_postfix = "@163.com"
+    mail_postfix = "@163.com"   # 邮箱后缀
 
     sender = mail_user + mail_postfix
     receivers = ["ztwork18@163.com"]
