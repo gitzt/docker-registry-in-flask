@@ -10,7 +10,7 @@ curl -u admin 10.36.0.141:5000/v2/registry/tags/list
 获取sha256  
 curl -u admin -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -I -XGET http://10.36.0.141:5000/v2/registry/manifests/latest  
 
-删除镜像
+删除镜像  
 curl -u admin --header "Accept:application/vnd.docker.distribution.manifest.v2+json" -I -X DELETE http://10.36.0.141:5000/v2/registry/manifests/sha256:6d995dae7b7b1ec8c782f2b45f9d569a65b5210b117172831bf15c85e3b086f5  
 
 垃圾回收  
