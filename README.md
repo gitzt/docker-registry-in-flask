@@ -1,7 +1,7 @@
 # docker resigry 命令
-登录/上传
-docker login -u admin 10.36.0.141:5000
-docker push 10.36.0.141:5000/registry
+登录/上传  
+docker login -u admin 10.36.0.141:5000  
+docker push 10.36.0.141:5000/registry  
 
 查看镜像  
 curl -u admin 10.36.0.141:5000/v2/_catalog  
