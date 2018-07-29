@@ -1,4 +1,8 @@
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
+# @Author: fangzt <295157914@qq.com>
+# @Date:   2018-07-27 21:45:02
+# @Last Modified by:   lenovo
+# @Last Modified time: 2018-07-27 23:49:47
 
 import requests
 import base64
