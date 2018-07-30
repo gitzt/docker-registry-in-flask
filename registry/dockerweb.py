@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-07-29 16:55:42
-# @Last Modified by:   fzt
-# @Last Modified time: 2018-07-30 19:07:12
+# @Last Modified by:   lenovo
+# @Last Modified time: 2018-07-30 23:48:21
 
 from flask import Flask, render_template, request
 
@@ -21,10 +21,10 @@ def registry():
     else :
         pass
 
-@app.route('/setting', methods=['GET', 'POST'])
-def setting():
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
     if request.method == 'GET':
-        return render_template('setting.html')
+        return render_template('settings.html')
     else :
         pass
 
