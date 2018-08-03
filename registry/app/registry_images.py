@@ -2,7 +2,7 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-07-27 21:45:01
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-03 15:30:27
+# @Last Modified time: 2018-08-03 15:30:35
 
 import requests
 import json
@@ -51,8 +51,8 @@ def getImageName(ip, port):
 
     return docker_images
 
-imgs = getImageName(ip, port)
+# imgs = getImageName(ip, port)
 
-for i in imgs:
-    print i
+# for i in imgs:
+#     print i
 

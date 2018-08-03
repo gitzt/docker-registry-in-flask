@@ -2,11 +2,13 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-07-29 16:55:42
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-03 15:35:40
+# @Last Modified time: 2018-08-02 19:38:29
 
 
 from flask import Flask, render_template, request
-from registry_images import getImageName
+import os
+
+path = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
@@ -25,9 +27,7 @@ def settings():
 @app.route('/registry/', methods=['GET', 'POST'])
 def registry():
     if request.method == 'GET':
-        registries = getImageName('10.13.0.63', 5000)
-        print registries
-        return render_template('registry.html', registries=registries)
+        return render_template('registry.html')
     else :
         pass
 

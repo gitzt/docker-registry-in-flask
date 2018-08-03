@@ -1,0 +1,21 @@
+/*
+* @Author: fangzt <295157914@qq.com>
+* @Date:   2018-07-29 22:12:46
+* @Last Modified by:   lenovo
+* @Last Modified time: 2018-07-30 23:47:50
+*/
+.logo {
+    height: 50px;
+    margin-top: -15px;
+}
+
+body {
+    background: #f3f3f3;
+}
+
+.main {
+    background: #fff;
+    width: 1120px;
+    margin: 0 auto;
+    overflow: hidden;
+}
