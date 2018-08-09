@@ -2,7 +2,7 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-08-06 21:58:49
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-08 11:01:04
+# @Last Modified time: 2018-08-09 15:42:39
 
 
 import psutil
@@ -110,7 +110,7 @@ if __name__ == '__main__':
         # 获取磁盘使用率(获取磁盘"/"的容量和使用率)
         disk = get_disk()
         
-        if cpu >= 80 or memory['percent'] >= 90 or disk['percent'] >= 90:
+        if cpu >= 80 or memory['percent'] >= 10 or disk['percent'] >= 90:
             information['date'] = now
             information['cpu'] = cpu
             information['memory'] = memory
@@ -122,7 +122,7 @@ if __name__ == '__main__':
                 last_send_time = now[0:10]
                 is_send_today = True
             else:
-                print "%s 今天已发送过邮件，请及时处理！" % now
+                print "%s 今天已发送过邮件，请及时处理！%s" % (now, information)
 
         # 每天重置邮件发送状态
         today = time.strftime("%Y-%m-%d", time.localtime())
