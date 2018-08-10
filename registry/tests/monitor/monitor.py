@@ -2,7 +2,7 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-08-06 21:58:49
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-09 15:42:39
+# @Last Modified time: 2018-08-10 15:39:29
 
 
 import psutil
@@ -51,7 +51,8 @@ def send_mail(content):
     """ 发送邮件 """
 
     # 邮件配置
-    mail_host = "10.27.0.214"                       # 服务器地址
+    # mail_host = "10.27.0.214"                       # 服务器地址
+    mail_host = "mail.genlot.com"
     sender = "zhuangtao.fang@genlot.com"            # 发件人
     receivers = [                                   # 收件人列表
         "zhuangtao.fang@genlot.com",
@@ -110,7 +111,7 @@ if __name__ == '__main__':
         # 获取磁盘使用率(获取磁盘"/"的容量和使用率)
         disk = get_disk()
         
-        if cpu >= 80 or memory['percent'] >= 10 or disk['percent'] >= 90:
+        if cpu >= 80 or memory['percent'] >= 90 or disk['percent'] >= 90:
             information['date'] = now
             information['cpu'] = cpu
             information['memory'] = memory
