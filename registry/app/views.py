@@ -2,14 +2,11 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-07-29 16:55:42
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-03 15:35:40
+# @Last Modified time: 2018-08-10 09:28:20
 
-
-from flask import Flask, render_template, request
+from app import app
+from flask import render_template, request
 from registry_images import getImageName
-
-app = Flask(__name__)
-
 
 @app.route('/')
 def index():
@@ -34,7 +31,4 @@ def registry():
 
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5100)
 
