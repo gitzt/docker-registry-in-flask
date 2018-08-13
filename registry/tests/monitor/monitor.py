@@ -2,12 +2,11 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-08-06 21:58:49
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-10 15:39:29
+# @Last Modified time: 2018-08-13 14:04:50
 
 
+import os, time, socket
 import psutil
-import time
-import socket
 import smtplib,base64
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -47,7 +46,18 @@ def get_disk():
     disk_info = {key:getattr(disk, key) for key in dir(disk) if key in diskKeys}
     return disk_info
 
-def send_mail(content):
+def ping(hosts):
+    """
+    ping
+    """
+    fail_list = []
+    for host in hosts:
+        result = os.system("ping -c 3 %s" % host)
+        if result:
+            fail_list.append(host)
+    return fail_list
+
+def send_mail(title, content):
     """ 发送邮件 """
 
     # 邮件配置
@@ -61,17 +71,10 @@ def send_mail(content):
     password = base64.b64decode("NjY2ODg4Znp0")     # 邮箱密码
 
     # 邮件正文
-    warn_info = "告警主机: %s \
-    \n告警时间：%s \
-    \nCPU使用率：%s%% \
-    \n内存使用率：%s%% \
-    \n磁盘使用率：%s%% \
-    " % (content['ip'], content['date'], content['cpu'], content['memory']['percent'], content['disk']['percent'])
-    message = MIMEText(warn_info, 'plain', 'utf-8')
+    message = MIMEText(content, 'plain', 'utf-8')
 
     # 邮件标题、发件人、收件人
-    subject = u'资源消耗预警 -- 服务器%s资源占用高！ ' % content['ip']
-    message['Subject'] = Header(subject, 'utf-8')   # 邮箱标题
+    message['Subject'] = Header(title, 'utf-8')   # 邮箱标题
     message['From'] = "zhuangtao.fang@genlot.com"
     message['To'] = ','.join(receivers)
 
@@ -99,7 +102,7 @@ if __name__ == '__main__':
     information['ip'] = ip
 
     while True:
-        time.sleep(60)
+        time.sleep(3600)
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
         # 获取cpu使用率
@@ -111,6 +114,7 @@ if __name__ == '__main__':
         # 获取磁盘使用率(获取磁盘"/"的容量和使用率)
         disk = get_disk()
         
+        # 判断资源是否超过阀值，超过则发送邮件
         if cpu >= 80 or memory['percent'] >= 90 or disk['percent'] >= 90:
             information['date'] = now
             information['cpu'] = cpu
@@ -119,15 +123,36 @@ if __name__ == '__main__':
 
             if is_send_today == False:
                 # 发送邮件
-                send_mail(information)
+                title = u'资源消耗预警 -- 服务器%s资源占用高！ ' % information['ip']
+                content = u"告警主机: %s \
+                    \n告警时间：%s \
+                    \nCPU使用率：%s%% \
+                    \n内存使用率：%s%% \
+                    \n磁盘使用率：%s%% \
+                    " % (information['ip'], information['date'], information['cpu'], information['memory']['percent'], information['disk']['percent'])
+                send_mail(title, content)
                 last_send_time = now[0:10]
                 is_send_today = True
             else:
                 print "%s 今天已发送过邮件，请及时处理！%s" % (now, information)
 
-        # 每天重置邮件发送状态
+        # 每天重置资源邮件发送状态
         today = time.strftime("%Y-%m-%d", time.localtime())
         if today > last_send_time:
             is_send_today = False
+
+        hosts = [
+            "10.13.0.17",
+            "10.13.0.210",
+            "10.36.0.142"
+        ]
+        hour = int(now[11:13])
+        # 每6个小时ping一次常用服务器，若有ping不通，则发送邮件
+        if hour%6 == 0:
+            fail_ips = ping(hosts)
+            title = u'服务器宕机或网络不通，请及时处理！'
+            content = u"ping不通的IP地址：\n %s " % fail_ips
+            send_mail(title, content)
+
 
 
