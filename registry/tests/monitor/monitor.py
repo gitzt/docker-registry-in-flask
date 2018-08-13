@@ -2,7 +2,7 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-08-06 21:58:49
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-13 14:04:50
+# @Last Modified time: 2018-08-13 14:13:49
 
 
 import os, time, socket
@@ -150,9 +150,10 @@ if __name__ == '__main__':
         # 每6个小时ping一次常用服务器，若有ping不通，则发送邮件
         if hour%6 == 0:
             fail_ips = ping(hosts)
-            title = u'服务器宕机或网络不通，请及时处理！'
-            content = u"ping不通的IP地址：\n %s " % fail_ips
-            send_mail(title, content)
+            if len(fail_ips):
+                title = u'服务器宕机或网络不通，请及时处理！'
+                content = u"ping不通的IP地址：\n %s " % fail_ips
+                send_mail(title, content)
 
 
 
