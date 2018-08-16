@@ -2,7 +2,7 @@
 # @Author: fangzt <295157914@qq.com>
 # @Date:   2018-08-02 19:34:41
 # @Last Modified by:   fzt
-# @Last Modified time: 2018-08-02 19:39:23
+# @Last Modified time: 2018-08-13 17:29:45
 
 
 
@@ -25,14 +25,19 @@ def get_config(path, section, key):
     return config[section][key]
 
 
-account = 'Basic ' + base64.b64encode('%s:%s' % (user, password))
-headers = {
-    'Accept': 'application/vnd.docker.distribution.manifest.v2+json',
-    'Authorization': account
-}
+def headers(user, password):
+    """
+    :return headers
+    """
+    auth = 'Basic ' + base64.b64encode('%s:%s' % (user, password))
+    headers = {
+        'Accept': 'application/vnd.docker.distribution.manifest.v2+json',
+        'Authorization': auth
+    }
+    return headers
 
 
-def get_images(headers, ip, port):
+def get_docker_images(headers, ip, port):
     print headers
     url = 'http://%s:%s/v2/_catalog' % (ip, port)
     print url
@@ -43,7 +48,7 @@ get_images(headers, ip, port)
 
 
     
-def del_image(headers, ip, port, image, tag):
+def del_docker_image(headers, ip, port, image, tag):
     url_sha256 = 'http://%s:%s/v2/%s/manifests/%s' % (ip, port, image, tag)
     print url_sha256
     resp_sha256 = requests.get(url_sha256, headers=headers)
